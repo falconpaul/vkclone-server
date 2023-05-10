@@ -1,5 +1,5 @@
 import { parseQueryString, split } from '@help/utils'
-import { basePathUrl } from 'env'
+import { basePathUrl, port } from 'env'
 import fs from 'fs'
 import http from 'http'
 import path from 'path'
@@ -61,6 +61,6 @@ const main = async () => {
         res.write(resp.body)
         res.end()
     })
-    server.listen(3000)
+    server.listen(port)
 }
 main()
