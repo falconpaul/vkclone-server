@@ -35,11 +35,11 @@ const main = async () => {
     // console.log(await userService.getShortInfo(1))
     // console.log(await userService.findByName('mar'))
 
-    console.log(await postService.createPost({
-        id_user: 1,
-        photo: null,
-        text: 'Первый нах'
-    }))
+    // console.log(await postService.createPost({
+    //     id_user: 1,
+    //     photo: null,
+    //     text: 'Первый нах'
+    // }))
     // console.log(await postService.createPost({
     //     id_user: 2,
     //     photo: null,
@@ -48,7 +48,7 @@ const main = async () => {
     // console.log(await postService.getPostsByUser(1))
     // console.log(await postService.addLike(1, 2))
     // console.log(await postService.removeLike(1, 2))
-    // console.log(await postService.getPostsForUser(1))
+    console.log(await postService.getPostsForUser(1))
     // const list = await userService.getUserSubscriptions(1)
     // console.log(mapperService.mapBy(list, 'id'))
     // console.log(await messageService.createMessage({

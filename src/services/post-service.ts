@@ -30,14 +30,14 @@ export const postService = {
         )
     },
     getPostsByUser: async (idUser: number) => {
-        return await db.selectAll(
+        const posts = await db.selectAll(
             `select p.id
                    ,p.text
                    ,dtf(p.created) as created
                    ,dtf(p.updated) as updated
                    ,p.photo
                    ,count(pl.id_user) as likes
-                   ,sum(pl.id_user = :id) as hasLike
+                   ,ifnull(sum(pl.id_user = :id), 0) as hasLike
                from posts p
                left join post_likes pl on p.id = pl.id_post
               where p.id_user = :id
@@ -45,6 +45,10 @@ export const postService = {
               order by p.id desc`,
             { id: idUser }
         )
+        for (const item of posts) {
+            item.hasLike = +(item.hasLike as string)
+        }
+        return posts
     },
     getPostsForUser: async (idUser: number, idFrom: number = 0, limit: number = 5) => {
         const subscriptionsByIdUser = mapperService.mapBy(
@@ -59,7 +63,7 @@ export const postService = {
                    ,p.photo
                    ,p.id_user
                    ,count(pl.id_user) as likes
-                   ,sum(pl.id_user = :id) as hasLike
+                   ,ifnull(sum(pl.id_user = :id), 0) as hasLike
                from posts p
                join subscriptions s on p.id_user = s.id_user2
                left join post_likes pl on pl.id_post = p.id
@@ -71,6 +75,7 @@ export const postService = {
             { id: idUser, idFrom }
         )
         for (const item of posts) {
+            item.hasLike = +(item.hasLike as string)
             item.user = subscriptionsByIdUser[item.id_user as string]
             delete item.id_user
         }
